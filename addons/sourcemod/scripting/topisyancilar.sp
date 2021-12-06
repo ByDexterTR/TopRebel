@@ -35,6 +35,17 @@ public void OnPluginStart()
 	SQL_TConnect(OnSQLConnect, "toprebel");
 }
 
+public void OnPluginEnd()
+{
+	for (int client = 1; client <= MaxClients; client++)
+	{
+		if (IsValidClient(client))
+		{
+			OnClientDisconnect(client);
+		}
+	}
+}
+
 public void OnMapStart()
 {
 	char map[32];
@@ -49,48 +60,6 @@ public void OnMapStart()
 	else
 	{
 		Block = false;
-	}
-}
-
-public void OnPluginEnd()
-{
-	for (int client = 1; client <= MaxClients; client++)
-	{
-		if (IsValidClient(client))
-		{
-			OnClientDisconnect(client);
-		}
-	}
-}
-
-public void OnClientDisconnect(int client)
-{
-	if (!IsFakeClient(client) && g_bChecked[client])
-		SaveSQLCookies(client);
-}
-
-public void OnClientPostAdminCheck(int client)
-{
-	if (!IsFakeClient(client))
-		CheckSQLSteamID(client);
-	
-}
-
-public Action OnClientDead(Event event, const char[] name, bool dB)
-{
-	if (!Block)
-	{
-		int victim = GetClientOfUserId(event.GetInt("userid"));
-		if (IsValidClient(victim) && GetClientTeam(victim) == 3)
-		{
-			int attacker = GetClientOfUserId(event.GetInt("attacker"));
-			if (IsValidClient(attacker) && GetClientTeam(attacker) == 2)
-			{
-				g_iRebel[attacker]++;
-				OnClientDisconnect(attacker);
-				OnClientPostAdminCheck(attacker);
-			}
-		}
 	}
 }
 
@@ -113,25 +82,10 @@ public int OnSQLConnect(Handle owner, Handle hndl, char[] error, any data)
 		{
 			Format(g_sSQLBuffer, sizeof(g_sSQLBuffer), "CREATE TABLE IF NOT EXISTS `toprebel` (`playername` varchar(128) NOT NULL, `steamid` varchar(32) PRIMARY KEY NOT NULL, `total` INT( 16 ))");
 			SQL_TQuery(g_hDB, OnSQLConnectCallback, g_sSQLBuffer);
-			for (int client = 1; client <= MaxClients; client++)
-			{
-				if (IsValidClient(client))
-				{
-					OnClientPostAdminCheck(client);
-				}
-			}
 		}
 		else
 		{
 			Format(g_sSQLBuffer, sizeof(g_sSQLBuffer), "CREATE TABLE IF NOT EXISTS toprebel (playername varchar(128) NOT NULL, steamid varchar(32) PRIMARY KEY NOT NULL, total INTEGER)");
-			SQL_TQuery(g_hDB, OnSQLConnectCallback, g_sSQLBuffer);
-			for (int client = 1; client <= MaxClients; client++)
-			{
-				if (IsValidClient(client))
-				{
-					OnClientPostAdminCheck(client);
-				}
-			}
 		}
 	}
 }
@@ -151,6 +105,19 @@ public int OnSQLConnectCallback(Handle owner, Handle hndl, char[] error, any dat
 			OnClientPostAdminCheck(client);
 		}
 	}
+}
+
+public void OnClientDisconnect(int client)
+{
+	if (!IsFakeClient(client) && g_bChecked[client])
+		SaveSQLCookies(client);
+}
+
+public void OnClientPostAdminCheck(int client)
+{
+	if (!IsFakeClient(client))
+		CheckSQLSteamID(client);
+	
 }
 
 public void InsertSQLNewPlayer(int client)
@@ -235,6 +202,24 @@ public void SaveSQLCookies(int client)
 	Format(buffer, sizeof(buffer), "UPDATE toprebel SET playername = '%s', total = '%i' WHERE steamid = '%s';", SafeName, g_iRebel[client], steamid);
 	SQL_TQuery(g_hDB, SaveSQLPlayerCallback, buffer);
 	g_bChecked[client] = false;
+}
+
+public Action OnClientDead(Event event, const char[] name, bool dB)
+{
+	if (!Block)
+	{
+		int victim = GetClientOfUserId(event.GetInt("userid"));
+		if (IsValidClient(victim) && GetClientTeam(victim) == 3)
+		{
+			int attacker = GetClientOfUserId(event.GetInt("attacker"));
+			if (IsValidClient(attacker) && GetClientTeam(attacker) == 2)
+			{
+				g_iRebel[attacker]++;
+				OnClientDisconnect(attacker);
+				OnClientPostAdminCheck(attacker);
+			}
+		}
+	}
 }
 
 public Action Command_Rebel(int client, int args)
