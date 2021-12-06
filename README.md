@@ -5,13 +5,13 @@ Eklenti Terörist(Mahkum) oyuncuların Anti-Terörist(Gardiyan) oyuncularından 
 ## Eklenti Kurulum:
 
 1. WebFTP/FTP üzerinden addons/sourcemod/configs yoluna gidiyoruz, **databases.cfg** dosyasına giriyoruz ve aşağıda size verdiğim kısmı oraya kopyalayıp yapıştırıyorsunuz.
-	
+```json	
 	"toprebel"
 	{
 		"driver"			"sqlite"
 		"database"			"toprebel"
 	}
-	
+```
 2. WebFTP/FTP üzerinden addons/sourcemod/plugins yoluna gidiyoruz ve size verdiğim addons/sourcemod/plugins/**toprebel.smx** eklentisini oraya atıyoruz.
 
 3. Sunucunuzu restartlayın ve eklentiniz çalışacaktır.
