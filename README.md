@@ -1,6 +1,6 @@
 # Top Rebel ( İsyancılar Sıralaması )
 
-> Eklenti Terörist(Mahkum) oyuncuların Anti-Terörist(Gardiyan) oyuncularından 1 kişi öldürdüğünde ona 1 puan verir ve onu tabloya aktarır.
+Eklenti Terörist(Mahkum) oyuncuların Anti-Terörist(Gardiyan) oyuncularından 1 kişi öldürdüğünde ona 1 puan verir ve onu tabloya aktarır.
 
 ## Eklenti Kurulum:
 
