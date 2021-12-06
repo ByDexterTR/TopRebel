@@ -5,14 +5,13 @@
 ## Eklenti Kurulum:
 
 1. WebFTP/FTP üzerinden addons/sourcemod/configs yoluna gidiyoruz, **databases.cfg** dosyasına giriyoruz ve aşağıda size verdiğim kısmı oraya kopyalayıp yapıştırıyorsunuz.
-____________
-    "toprebel"
+	
+	"toprebel"
 	{
 		"driver"			"sqlite"
 		"database"			"toprebel"
 	}
-____________
-
+	
 2. WebFTP/FTP üzerinden addons/sourcemod/plugins yoluna gidiyoruz ve size verdiğim addons/sourcemod/plugins/**toprebel.smx** eklentisini oraya atıyoruz.
 
 3. Sunucunuzu restartlayın ve eklentiniz çalışacaktır.
@@ -21,17 +20,17 @@ ____________
 
 ## Eklenti Komutları:
 
-### Sıralamayı açma komutları:
-> sm_toprebel
-> sm_topisyan
-> sm_isyancilar
+#### Sıralamayı açma komutları:
+1. sm_toprebel
+2. sm_topisyan 
+3. sm_isyancilar
 
-### Sıralamayı panele loglama komutları:
-> sm_toprebellog
-> sm_topisyanlog
-> sm_isyancilarlog
+#### Sıralamayı panele loglama komutları:
+1. sm_toprebellog 
+2. sm_topisyanlog 
+3. sm_isyancilarlog
 
-### Sıralamayı sıfırlama komutları:
-> sm_xtoprebel
-> sm_xtopisyan
-> sm_xisyancilar
+#### Sıralamayı sıfırlama komutları:
+1. sm_xtoprebel 
+2. sm_xtopisyan 
+3. sm_xisyancilar
